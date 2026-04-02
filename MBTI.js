@@ -1,4 +1,3 @@
-// 1. 카테고리별 문제 은행 (각각 20문항, 총 80문항)
 const questionPool = {
     EI: [
         { question: "업무나 공부 중 잠시 휴식 시간이 생겼을 때, 당신은?", answers: [{ text: "동료나 친구에게 말을 걸며 수다를 떤다", type: "E" }, { text: "혼자 스마트폰을 보거나 조용히 생각을 정리한다", type: "I" }] },
@@ -78,7 +77,7 @@ const questionPool = {
         { question: "장보기 위해 마트에 갔을 때 당신의 쇼핑 카트에는?", answers: [{ text: "미리 스마트폰에 적어둔 살 품목 리스트에 있는 물건만 딱 들어있다", type: "J" }, { text: "돌아다니다가 눈에 띄는 신상 과자나 1+1 세일하는 물건들이 담겨 있다", type: "P" }] },
         { question: "학교 과제나 업무 마감일(데드라인)을 대하는 태도는?", answers: [{ text: "마감일은 내 목숨과도 같다. 어떤 일이 있어도 반드시 그 전에 끝내야 한다", type: "J" }, { text: "마감일은 대략적인 가이드라인일 뿐, 상황에 따라 하루 이틀 유동적일 수 있다", type: "P" }] },
         { question: "아무 일도 없는 휴일 아침 눈을 떴을 때 당신의 머릿속은?", answers: [{ text: "'10시쯤 밥 먹고, 12시에 세탁기 돌리고, 3시에 카페 가야지' 틀이 잡혀 있다", type: "J" }, { text: "'날씨 좋네~ 일단 누워서 폰 좀 보다가 끌리는 거 해야지' 흐름에 맡긴다", type: "P" }] },
-        { question: "카톡이나 업무 메일이 왔을 때 당신의 답장 스타일은?", answers: [{ text: "확인하는 즉시(혹은 내가 정해둔 시간에) 깔끔하게 답장하고 알림을 없앤다", type: "J" }, { text: "'나중에 여유로울 때 해야지' 하고 미루다가 가끔 답장을 까먹기도 한다", type: "P" }] },
+        { question: "카톡이나 업무 메일이 왔을 때 당신의 답장 스타일은?", answers: [{ text: "확인하는 즉시(혹은 내가 정해둔 시간에) 깔끔하게 답장하고 알림을 없앤다", type: "J" }, { text: "'나중에 여유로울 때 해야지' 하고 미루다가 가끔 답장을 까먹기도 단다", type: "P" }] },
         { question: "사용한 물건(예: 가위, 리모컨)을 다 쓰고 난 후에는?", answers: [{ text: "다음에 찾기 쉽도록 즉시 원래 있던 서랍이나 제자리에 반납해 둔다", type: "J" }, { text: "나중에 한꺼번에 치우려고 일단 손이 닿기 쉬운 근처에 올려둔다", type: "P" }] },
         { question: "여행 중 갑자기 폭우가 쏟아져서 야외 일정이 취소되었다면?", answers: [{ text: "완벽했던 계획이 틀어져 몹시 스트레스받으며 급하게 Plan B를 검색한다", type: "J" }, { text: "'비 오는 날의 운치가 또 있지' 하며 근처 예쁜 카페에서 여유를 즐긴다", type: "P" }] },
         { question: "어떤 결정을 내려야 할 때 선호하는 방식은?", answers: [{ text: "빠르게 결정을 내리고 마음 편하게 이 상황을 종결짓는 것을 좋아한다", type: "J" }, { text: "더 좋은 옵션이나 변수가 생길지 모르니 최대한 마지막까지 결정을 보류한다", type: "P" }] },
@@ -90,7 +89,6 @@ const questionPool = {
     ]
 };
 
-// 2. 현재 테스트에서 실제로 사용될 20문항을 담을 빈 배열
 let questions = [];
 const descriptions = {
     "ISTJ": { title: "청렴결백한 논리주의자", desc: "한번 시작한 일은 끝까지 해내는 책임감 있는 사람" },
@@ -111,7 +109,6 @@ const descriptions = {
     "ENTJ": { title: "대담한 통솔자", desc: "큰 그림을 그리고 사람들을 이끌어가는 카리스마 있는 사람" }
 };
 
-// 16Personalities 이미지 URL 매핑
 const mbtiImages = {
     "INTJ": "https://www.16personalities.com/static/images/personality-types/avatars/intj-architect.svg",
     "INTP": "https://www.16personalities.com/static/images/personality-types/avatars/intp-logician.svg",
@@ -139,21 +136,17 @@ function pickRandomQuestions() {
     let selectedQuestions = [];
     const categories = ['EI', 'SN', 'TF', 'JP'];
 
-    // 1. 각 카테고리별로 5개씩 뽑아서 합치기 (기존과 동일)
     categories.forEach(category => {
         const shuffled = [...questionPool[category]].sort(() => Math.random() - 0.5);
         selectedQuestions = selectedQuestions.concat(shuffled.slice(0, 5));
     });
 
-    // 2. ★ 추가된 부분: 20개가 모인 전체 배열의 순서를 다시 한번 무작위로 마구 섞어줍니다!
     selectedQuestions.sort(() => Math.random() - 0.5);
 
-    return selectedQuestions; // 순서까지 완전히 섞인 20문제 반환
+    return selectedQuestions;
 }
 
-// 1. 시작 버튼 클릭 시 실행
 function startTest() {
-    // 검사 시작 버튼을 누를 때마다 새로운 20문제를 랜덤으로 세팅합니다!
     questions = pickRandomQuestions();
     totalPages = Math.ceil(questions.length / questionsPerPage);
 
@@ -165,18 +158,15 @@ function startTest() {
     updateProgress();
 }
 
-// 2. 전체 문항을 DOM에 그리고 5개씩 div로 묶기
 function renderQuestions() {
     const container = document.querySelector("#questions-container");
     let html = "";
 
     questions.forEach((q, index) => {
-        // 5개마다 새로운 페이지 컨테이너 열기
         if (index % questionsPerPage === 0) {
             html += `<div class="page-chunk" id="page-${Math.floor(index / questionsPerPage)}">`;
         }
 
-        // onchange 이벤트에 updateProgress()를 달아 라디오 버튼을 누를 때마다 진행바가 채워지게 함
         html += `
             <div class="question-item">
                 <h3 class="question-title">${index + 1}. ${q.question}</h3>
@@ -193,7 +183,6 @@ function renderQuestions() {
                 </div>
             </div>`;
 
-        // 5개 렌더링이 끝나거나 마지막 문항이면 페이지 컨테이너 닫기
         if (index % questionsPerPage === questionsPerPage - 1 || index === questions.length - 1) {
             html += `</div>`;
         }
@@ -201,9 +190,7 @@ function renderQuestions() {
     container.innerHTML = html;
 }
 
-// 3. 진행도(Progress Bar & Text) 업데이트
 function updateProgress() {
-    // 체크된 라디오 버튼의 총 개수를 가져옴
     const answeredCount = document.querySelectorAll('input[type="radio"]:checked').length;
     const totalCount = questions.length;
 
@@ -211,9 +198,7 @@ function updateProgress() {
     document.getElementById("progress-fill").style.width = `${(answeredCount / totalCount) * 100}%`;
 }
 
-// 4. 현재 페이지에 해당하는 문항 5개만 화면에 표시
 function updatePageVisibility() {
-    // 모든 페이지 묶음을 숨기고 현재 페이지만 클래스를 추가해 보여줌
     document.querySelectorAll('.page-chunk').forEach((page, index) => {
         page.classList.remove('active');
         if (index === currentPage) {
@@ -221,27 +206,23 @@ function updatePageVisibility() {
         }
     });
 
-    // 현재 페이지가 마지막 페이지면 버튼 텍스트와 동작을 '결과 보기'로 변경
     const nextBtn = document.getElementById("next-btn");
     if (currentPage === totalPages - 1) {
         nextBtn.innerText = "결과 보기";
-        nextBtn.onclick = calculateResult; // 다음 페이지 이동 대신 결과 계산 함수 연결
+        nextBtn.onclick = calculateResult;
     } else {
         nextBtn.innerText = "다음";
         nextBtn.onclick = nextPage;
     }
 
-    // 페이지 전환 시 부드럽게 화면 맨 위로 끌어올림
     window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
-// 5. 다음 페이지 이동 로직 (유효성 검사 포함)
 function nextPage() {
     const startIndex = currentPage * questionsPerPage;
     const endIndex = startIndex + questionsPerPage;
     let allAnswered = true;
 
-    // 현재 화면에 있는 5개의 문항이 모두 체크되었는지 확인
     for (let i = startIndex; i < endIndex; i++) {
         if (!document.querySelector(`input[name="q${i}"]:checked`)) {
             allAnswered = false;
@@ -258,9 +239,7 @@ function nextPage() {
     updatePageVisibility();
 }
 
-// 6. 최종 결과 계산 로직
 function calculateResult() {
-    // (유효성 검사 부분은 기존과 동일)
     const startIndex = currentPage * questionsPerPage;
     const endIndex = questions.length;
     let allAnswered = true;
@@ -271,7 +250,6 @@ function calculateResult() {
     }
     if (!allAnswered) { alert("마지막 페이지의 모든 문항에 답해주세요!"); return; }
 
-    // 1. 점수 합산
     const scores = { E: 0, I: 0, S: 0, N: 0, T: 0, F: 0, J: 0, P: 0 };
     questions.forEach((q, index) => {
         const val = document.querySelector(`input[name="q${index}"]:checked`).value;
@@ -281,18 +259,12 @@ function calculateResult() {
         else if (val === "R2") scores[q.answers[1].type] += 2;
     });
 
-    /// 2. 퍼센트 계산 함수 (동점 방지 로직 추가)
     const getPercent = (leftType, rightType) => {
         const diff = scores[leftType] - scores[rightType];
         let leftPercent = Math.round(((10 + diff) / 20) * 100);
 
-        // ★ 동점(50:50)일 경우 47~53 (50 제외) 비율로 강제 조정
         if (leftPercent === 50) {
-
-            // 헴 님이 원하시는 후보군: 47, 48, 49, 51, 52, 53
             const tieOptions = [47, 48, 49, 51, 52, 53];
-
-            // 배열에서 무작위로 인덱스를 하나 골라서 적용
             const randomIndex = Math.floor(Math.random() * tieOptions.length);
             leftPercent = tieOptions[randomIndex];
         }
@@ -307,12 +279,10 @@ function calculateResult() {
         { left: 'J', right: 'P', percent: getPercent('J', 'P') }
     ];
 
-    // 3. MBTI 결론 도출
     const mbti = stats.map(s => s.percent >= 50 ? s.left : s.right).join('');
     const info = descriptions[mbti] || { title: "오류", desc: "데이터 부족" };
     const imageUrl = mbtiImages[mbti] || "";
 
-    // 4. 결과 창 HTML 생성 (그래프 포함)
     let statHtml = '<div class="stat-container">';
     stats.forEach(s => {
         statHtml += `
@@ -348,11 +318,9 @@ function calculateResult() {
     window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
-// 7. 다시 시작하기 로직
 function restartTest() {
     currentPage = 0;
 
-    // 기존 화면에 그려졌던 문제 컨테이너 안을 깨끗하게 비웁니다.
     document.querySelector("#questions-container").innerHTML = "";
 
     document.getElementById("result-box").style.display = "none";
@@ -370,10 +338,8 @@ function handleSelection(radioElement) {
 
     setTimeout(() => {
         if (nextQuestion) {
-            // 다음 문항이 있으면 그 문항이 화면 중앙에 오도록 스크롤
             nextQuestion.scrollIntoView({ behavior: 'smooth', block: 'center' });
         } else {
-            // 현재 페이지의 마지막 문항이면 '다음' 또는 '결과 보기' 버튼으로 스크롤
             document.getElementById('next-btn').scrollIntoView({ behavior: 'smooth', block: 'center' });
         }
     }, 100);
